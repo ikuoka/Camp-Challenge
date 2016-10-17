@@ -10,3 +10,6 @@ HDD
 128GB
 128GB PCIeベース
 フラッシュストレージ
+
+OS
+Mac OS X El Capitan
