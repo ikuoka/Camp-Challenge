@@ -16,7 +16,7 @@ if($classNumber == 1){
 }
 
 //1個あたりの値段
-$totalCost = $totalPrice / $number;
+$costPer = $totalPrice / $number;
 
 //ポイントの処理
 $point = '0';
@@ -29,13 +29,13 @@ if($totalPrice >= 5000){
 //　↓　出力結果
 
 //総額が0未満の場合
-if($totalCost < 0){
+if($totalPrice < 0){
 	echo '総額が負の値です。';
 }else{
 //総額が0以上の場合
 	echo '商品種別は' .$class. 'です。';
 	echo '<br>';
-	echo '総額は' .$totalPrice. '、１個当たりの値段は'. $totalCost .'です。';
+	echo '総額は' .$totalPrice. '、１個当たりの値段は'. $costPer .'です。';
 	echo '<br>';
 	echo 'ポイントは' .$point. 'です。';
 }
