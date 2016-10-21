@@ -11,8 +11,6 @@ if(isset($_POST['hobby'])){
 $_SESSION['hobby'] = $_POST['hobby'];
 }
 
-//　↑　疑問：kadai7と重複してよいのかどうか
-
 $name = isset($_POST['name']) ? $_POST['name'] : "";
 $sex = isset($_POST['sex']) ? $_POST['sex'] : "";
 $hobby = isset($_POST['hobby']) ? $_POST['hobby'] : "";
