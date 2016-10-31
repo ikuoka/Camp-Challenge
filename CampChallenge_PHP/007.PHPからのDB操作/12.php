@@ -1,6 +1,6 @@
 <?php
 
-	if(!empty($_POST)){
+	if($_POST['name'] != null || $_POST['age'] != null || $_POST['birthday'] != null){
 
 	$dsn = 'mysql:host=localhost;dbname=Challenge_db;charset=utf8';
 	$user = 'horita';
@@ -10,7 +10,6 @@
 		$pdo_object = new PDO($dsn, $user, $pass);
 
 		//検索処理
-
 			$sql = "SELECT * FROM profiles WHERE name LIKE (:name) and age LIKE (:age) and birthday LIKE (:birthday)";
 			$query = $pdo_object->prepare($sql);
 
