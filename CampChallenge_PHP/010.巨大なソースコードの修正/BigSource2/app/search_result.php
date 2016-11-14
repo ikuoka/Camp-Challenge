@@ -1,7 +1,33 @@
 <?php
+
+/* =====================================
+
+    <変更箇所>
+
+    ・$_GET値、空のときはnullを代入する。
+    　→　Undefinedになるため
+
+    ・検索結果画面に戻るための$_SESSION['search_name']、
+    $_SESSION['search_year']、$_SESSION['search_type']を設定。
+    GET値があればその値を代入し、なければnullを代入。
+
+　 =====================================  */
+
+session_start();
 require_once '../common/defineUtil.php';
 require_once '../common/scriptUtil.php';
 require_once '../common/dbaccesUtil.php';
+
+// GET値、空のときはnull代入
+!isset($_GET['name']) && $_GET['name'] = null;
+!isset($_GET['year']) && $_GET['year'] = null;
+!isset($_GET['type']) && $_GET['type'] = null;
+
+// 検索フォームに入力された値をセッションに格納。入力されていなければnull
+!empty($_GET['name']) ? $_SESSION['search_name'] = $_GET['name'] : $_SESSION['search_name'] = null;
+!empty($_GET['year']) ? $_SESSION['search_year'] = $_GET['year'] : $_SESSION['search_year'] = null;
+!empty($_GET['type']) ? $_SESSION['search_type'] = $_GET['type'] : $_SESSION['search_type'] = null;
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -24,10 +50,6 @@ require_once '../common/dbaccesUtil.php';
         if (empty($_GET['name']) && empty($_GET['year']) && empty($_GET['type'])) {
             $result = serch_all_profiles();
         } else {
-            // 種別(ラジオボタン)に何も入力されなければ、$_GET['type']はUndefinedになるため、空のときはnull代入
-          if (empty($_GET['type'])) {
-              $_GET['type'] = null;
-          }
             $result = serch_profiles($_GET['name'], $_GET['year'], $_GET['type']);
         }
         foreach ($result as $value) {
@@ -44,5 +66,9 @@ require_once '../common/dbaccesUtil.php';
         }
         ?>
         </table>
+        <form action="<?php echo SEARCH; ?>" method="POST">
+          <input type="submit" value="検索画面に戻る"style="width:100px">
+        </form>
+        <?php echo return_top(); ?>
 </body>
 </html>

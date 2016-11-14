@@ -35,5 +35,6 @@
         <br>
         <input type="submit" name="btnSubmit" value="検索">
       </form>
+      <?php echo return_top(); ?>
   </body>
 </html>

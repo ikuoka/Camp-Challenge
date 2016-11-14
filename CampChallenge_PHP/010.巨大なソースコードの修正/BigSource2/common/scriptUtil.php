@@ -1,4 +1,13 @@
 <?php
+
+/* =====================================
+
+    <変更箇所>
+
+    ・null_chk()の追加。
+
+　 =====================================  */
+
 require_once '../common/defineUtil.php';
 
 /**
@@ -22,7 +31,7 @@ function ex_typenum($type){
             return "営業";
         case 3;
             return "その他";
-    }    
+    }
 }
 
 /**
@@ -50,6 +59,21 @@ function bind_p2s($name){
         return $_POST[$name];
     }else{
         $_SESSION[$name] = null;
+        return null;
+    }
+}
+
+
+/**
+ * ポストの存在チェックをする。
+ *
+ * @param type $name
+ * @return type
+ */
+function null_chk($name){
+    if(!empty($_POST[$name])){
+        return $_POST[$name];
+    }else{
         return null;
     }
 }

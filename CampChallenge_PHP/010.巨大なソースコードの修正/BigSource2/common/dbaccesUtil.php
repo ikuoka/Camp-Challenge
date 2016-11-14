@@ -4,11 +4,14 @@
 
     <変更箇所>
 
-    ・if文〜session_start()までの場所を変更。
+    ・タイムゾーン設定。
+
+    ・update_profile()の追加。
 
 　 =====================================  */
 
-
+//タイムゾーンを東京に設定。
+date_default_timezone_set('Asia/Tokyo');
 
 //DBへの接続を行う。成功ならPDOオブジェクトを、失敗なら中断、メッセージの表示を行う
 function connect2MySQL()
@@ -194,7 +197,7 @@ function update_profile($id, $name, $year, $month, $day, $tell, $type, $comment)
   $datetime = new DateTime();
   $date = $datetime->format('Y-m-d H:i:s');
 
-  $birthday = $year. '-' .$month. '-' .$day;
+  $birthday = $year. '-' .sprintf('%02d', $month). '-' .sprintf('%02d', $day);
 
   $update_db = connect2MySQL();
   $update_sql  = 'UPDATE user_t SET name = :name, birthday = :birthday, tell = :tell,

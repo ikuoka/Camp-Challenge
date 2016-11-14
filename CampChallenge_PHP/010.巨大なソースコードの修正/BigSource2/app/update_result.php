@@ -1,7 +1,25 @@
 <?php
+
+/* =====================================
+
+    <変更箇所>
+
+    ・タイムゾーン設定。
+
+    ・scriptUtil.phpより、null_chk()を用いて、
+    POST値の存在チェックをし、連想配列に格納。
+
+
+　 =====================================  */
+
 require_once '../common/defineUtil.php';
 require_once '../common/scriptUtil.php';
 require_once '../common/dbaccesUtil.php';
+
+if(!$_POST['mode']=="RESULT"){
+    echo 'アクセスルートが不正です。もう一度トップページからやり直してください<br>';
+}else{
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -12,15 +30,15 @@ require_once '../common/dbaccesUtil.php';
   <body>
     <?php
 
-    //ポストの存在チェックとセッションに値を格納しつつ、連想配列にポストされた値を格納
+    //ポストの存在チェックしつつ、連想配列にポストされた値を格納
     $confirm_values = array(
-                            'name' => bind_p2s('name'),
-                            'year' => bind_p2s('year'),
-                            'month' => bind_p2s('month'),
-                            'day' => bind_p2s('day'),
-                            'type' => bind_p2s('type'),
-                            'tell' => bind_p2s('tell'),
-                            'comment' => bind_p2s('comment'), );
+                            'name' => null_chk('name'),
+                            'year' => null_chk('year'),
+                            'month' => null_chk('month'),
+                            'day' => null_chk('day'),
+                            'type' => null_chk('type'),
+                            'tell' => null_chk('tell'),
+                            'comment' => null_chk('comment'), );
 
     if (!in_array(null, $confirm_values, true)) {
         $result = update_profile($_POST['userID'], $_POST['name'], $_POST['year'],
@@ -36,33 +54,31 @@ require_once '../common/dbaccesUtil.php';
 
       foreach ($confirm_values as $key => $value) {
           if ($key == 'name') {
-              echo '名前 : ' .$value. '<br>';
+              echo '名前 : '.$value.'<br>';
           }
           if ($key == 'year') {
-              echo '生年月日 : ' .$value .'年';
+              echo '生年月日 : '.$value.'年';
           }
           if ($key == 'month') {
-              echo $value .'月';
+              echo $value.'月';
           }
           if ($key == 'day') {
-              echo $value .'日<br>';
+              echo $value.'日<br>';
           }
           if ($key == 'type') {
-            echo '種別 : ' .ex_typenum($value). '<br>';
+              echo '種別 : '.ex_typenum($value).'<br>';
           }
           if ($key == 'tell') {
-              echo '電話番号 : ' .$value. '<br>';
+              echo '電話番号 : '.$value.'<br>';
           }
           if ($key == 'comment') {
-              echo '自己紹介 : ' .$value. '<br>';
+              echo '自己紹介 : '.$value.'<br>';
           }
       }
       } else {
           echo 'データの更新に失敗しました。次記のエラーにより処理を中断します:'.$result;
       }
-          echo return_top();
-      } else {
-
+    } else {
         foreach ($confirm_values as $key => $value) {
             if ($value == null) {
                 if ($key == 'name') {
@@ -90,13 +106,15 @@ require_once '../common/dbaccesUtil.php';
             }
         } ?>
 
-    <form action="<?php echo UPDATE; ?>?id=<?php echo $_POST['userID']; ?>" method="POST">
-      <input type="submit" name="NO" value="詳細画面に戻る"style="width:100px">
-    </form>
-
   <?php
-
+      }
     }
+    ?>
+    <form action="<?php echo RESULT_DETAIL; ?>?id=<?php echo $_POST['userID']; ?>" method="POST">
+      <input type="submit" name="update" value="詳細画面に戻る"style="width:100px">
+    </form>
+  <?php
+    echo return_top();
   ?>
 
   </body>

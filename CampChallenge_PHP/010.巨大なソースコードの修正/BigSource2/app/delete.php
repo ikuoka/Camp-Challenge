@@ -1,7 +1,22 @@
 <?php
+
+/* =====================================
+
+    <変更箇所>
+
+    ・直リン時のエラー表示設定。
+
+    ・クエリストリングで表示されたデータのuserIDをresult_detail.phpに送る。
+
+　 =====================================  */
+
 require_once '../common/defineUtil.php';
 require_once '../common/scriptUtil.php';
 require_once '../common/dbaccesUtil.php';
+
+if(!$_POST['delete']){
+    echo 'アクセスルートが不正です。もう一度トップページからやり直してください<br>';
+}else{
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -27,15 +42,19 @@ require_once '../common/dbaccesUtil.php';
     <form action="<?php echo DELETE_RESULT; ?>" method="POST">
       <input type="submit" name="YES" value="はい"style="width:100px">
       <input type="hidden" name="userID" value="<?php echo $result[0]['userID'];?>">
-    </form><br>
+      <input type="hidden" name="mode"  value="DELETE">
+    </form>
+
+    <!-- クエリストリングで表示されたデータのuserIDをresult_detail.phpに送る。 -->
     <form action="<?php echo RESULT_DETAIL; ?>?id=<?php echo $result[0]['userID']; ?>" method="POST">
-      <input type="submit" name="NO" value="詳細画面に戻る"style="width:100px">
+      <input type="submit" name="NO" value="いいえ"style="width:100px">
     </form>
 
     <?php
     }else{
         echo 'データの取得に失敗しました。次記のエラーにより処理を中断します:'.$result;
     }
+  }
     echo return_top();
     ?>
    </body>
